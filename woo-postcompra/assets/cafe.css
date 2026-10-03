@@ -1,0 +1,54 @@
+/* Woo Postcompra — tarjeta «Invítanos un café».
+ * Colores: --pa-postcompra-acento y --pa-postcompra-fondo (WooCommerce → Postcompra).
+ * El prefijo «html body» gana a los estilos inline que algunos temas imprimen después. */
+html body .pcaf-cafe {
+	max-width: 520px;
+	margin: 38px auto;
+	padding: 30px 26px 26px;
+	text-align: center;
+	border: 1px solid rgba(0, 0, 0, .1);
+	border-radius: 18px;
+	background: var(--pa-postcompra-fondo, #fff);
+	box-shadow: 0 2px 20px rgba(31, 41, 55, .05);
+}
+html body .pcaf-cafe__taza { color: var(--pa-postcompra-acento, #2271b1); line-height: 0; margin-bottom: 10px; }
+html body .pcaf-cafe__titulo { margin: 0 0 8px; font-size: 1.12rem; line-height: 1.35; color: #1f2937; font-weight: 700; }
+html body .pcaf-cafe__sub { margin: 0 0 18px; font-size: .92rem; line-height: 1.5; color: #4b5563; }
+html body .pcaf-cafe__montos { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 18px; }
+html body .pcaf-monto {
+	appearance: none;
+	border: 1.5px solid rgba(0, 0, 0, .2);
+	background: #fff;
+	color: #1f2937;
+	font: inherit;
+	font-size: .92rem;
+	font-weight: 600;
+	padding: 9px 15px;
+	border-radius: 999px;
+	cursor: pointer;
+	transition: border-color .15s, background .15s, color .15s;
+}
+html body .pcaf-monto:hover { border-color: var(--pa-postcompra-acento, #2271b1); }
+html body .pcaf-monto.is-on { background: var(--pa-postcompra-acento, #2271b1); border-color: var(--pa-postcompra-acento, #2271b1); color: #fff; }
+html body .pcaf-otro-caja { flex: 0 0 100%; margin-top: 2px; }
+html body .pcaf-otro-caja[hidden] { display: none !important; }
+html body .pcaf-otro-input { width: 150px; padding: 9px 12px; border: 1.5px solid rgba(0, 0, 0, .2); border-radius: 999px; font: inherit; text-align: center; }
+html body .pcaf-cafe__btn {
+	display: inline-block;
+	background: var(--pa-postcompra-acento, #2271b1);
+	color: #fff;
+	text-decoration: none;
+	font-weight: 700;
+	padding: 13px 30px;
+	border-radius: 999px;
+	border: 2px solid var(--pa-postcompra-acento, #2271b1);
+	transition: background .2s, color .2s;
+}
+html body .pcaf-cafe__btn:hover { background: transparent; color: var(--pa-postcompra-acento, #2271b1); }
+html body .pcaf-cafe__pie { margin: 14px 0 0; font-size: .78rem; color: #6b7280; line-height: 1.4; }
+html body .pcaf-gracias-cafe { text-align: center; font-weight: 600; color: var(--pa-postcompra-acento, #2271b1); margin: 24px 0; }
+@media (prefers-reduced-motion: no-preference) {
+	html body .pcaf-vapor { animation: pcaf-humo 3.2s ease-in-out infinite; }
+	html body .pcaf-vapor--2 { animation-delay: .6s; }
+	@keyframes pcaf-humo { 0%, 100% { opacity: .15; transform: translateY(2px); } 50% { opacity: .5; transform: translateY(-2px); } }
+}

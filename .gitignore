@@ -1,0 +1,19 @@
+# SO / IDE
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+
+# Basura de trabajo
+*.log
+*.bak
+*.tmp
+*.zip
+.env
+.env.*
+node_modules/
+vendor/
+_scratch/
+PARA-PUBLICAR.md
