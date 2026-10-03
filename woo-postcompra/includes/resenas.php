@@ -83,9 +83,9 @@ function plr_photo_field() {
 	if ( $printed ) {
 		return;
 	}
-	// Con sesión iniciada se sabe si compró: si no, no se ofrece la foto.
+	// Solo con sesión y habiendo comprado se ofrece la foto.
 	$uid = get_current_user_id();
-	if ( $uid && ! current_user_can( 'moderate_comments' ) && ! plr_compro( get_the_ID(), $uid, '' ) ) {
+	if ( ! $uid || ( ! current_user_can( 'moderate_comments' ) && ! plr_compro( get_the_ID(), $uid, '' ) ) ) {
 		return;
 	}
 	$printed = true;
@@ -149,6 +149,20 @@ function plr_preparar_carpeta( $dir ) {
 	return true;
 }
 
+/** ¿Quedan metadatos (EXIF, XMP, IPTC) en el archivo? Busca sus firmas en los bytes. */
+function plr_tiene_metadatos( $path ) {
+	$bytes = (string) @file_get_contents( $path ); // phpcs:ignore
+	if ( '' === $bytes ) {
+		return true;
+	}
+	foreach ( array( "Exif\0\0", 'EXIF', 'XMP ', 'http://ns.adobe.com/xap', 'Photoshop 3.0' ) as $firma ) {
+		if ( false !== strpos( $bytes, $firma ) ) {
+			return true;
+		}
+	}
+	return false;
+}
+
 add_action( 'comment_post', 'plr_guardar_foto', 10, 3 );
 function plr_guardar_foto( $comment_id, $approved, $commentdata ) {
 	if ( ! plr_hay_foto() || 'spam' === $approved || 'trash' === $approved ) {
@@ -158,9 +172,13 @@ function plr_guardar_foto( $comment_id, $approved, $commentdata ) {
 	if ( ! $comment || 'product' !== get_post_type( $comment->comment_post_ID ) || (int) $comment->comment_parent ) {
 		return;
 	}
-	// La foto, siempre solo de quien compró (aunque el ajuste de reseñas esté apagado).
-	if ( ! user_can( (int) $comment->user_id, 'moderate_comments' )
-		&& ! plr_compro( $comment->comment_post_ID, (int) $comment->user_id, $comment->comment_author_email ) ) {
+	// La foto, siempre solo de quien tiene sesión y compró (aunque el ajuste de
+	// reseñas esté apagado). Un invitado no sube foto: su correo no prueba nada.
+	$uid = (int) $comment->user_id;
+	if ( $uid <= 0 || get_current_user_id() !== $uid ) {
+		return;
+	}
+	if ( ! user_can( $uid, 'moderate_comments' ) && ! plr_compro( $comment->comment_post_ID, $uid, '' ) ) {
 		return;
 	}
 
@@ -225,6 +243,11 @@ function plr_guardar_foto( $comment_id, $approved, $commentdata ) {
 	$formato = WP_Image_Editor_GD::supports_mime_type( 'image/webp' ) ? array( 'webp', 'image/webp' ) : array( 'jpg', 'image/jpeg' );
 	$saved  = $editor->save( $dir . '/' . $base . '.' . $formato[0], $formato[1] );
 	if ( is_wp_error( $saved ) || empty( $saved['file'] ) ) {
+		return;
+	}
+	// Comprobación final (falla cerrado): si quedara algún bloque EXIF/XMP/IPTC, se borra.
+	if ( plr_tiene_metadatos( $saved['path'] ) ) {
+		wp_delete_file( $saved['path'] );
 		return;
 	}
 	// Se guarda solo el nombre del archivo; la URL se arma al mostrarla.

@@ -6,7 +6,7 @@ Requires at least: 6.0
 Requires Plugins: woocommerce
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,10 +64,16 @@ Yes by default (setting «Moderar reseñas con foto»), on top of the WordPress 
 
 == Changelog ==
 
+= 1.0.1 =
+* Security: review photos now require a logged-in buyer, and a final check discards any photo that still carries EXIF/XMP/IPTC.
+
 = 1.0.0 =
 * First public release: settings page, verified-buyer reviews, metadata-free photos, works without private companion plugins.
 
 == Upgrade Notice ==
+
+= 1.0.1 =
+Security hardening for review photos.
 
 = 1.0.0 =
 First public release.

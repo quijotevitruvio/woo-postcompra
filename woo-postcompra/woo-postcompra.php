@@ -3,7 +3,7 @@
  * Plugin Name: Woo Postcompra
  * Plugin URI: https://github.com/quijotevitruvio/woo-postcompra
  * Description: Lo que se le ofrece al cliente después de comprar: invitar un café (propina como producto de WooCommerce) y dejar una reseña con foto.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Andrés Valencia Tobón
  * Author URI: https://github.com/quijotevitruvio
  * Requires at least: 6.0
@@ -26,7 +26,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'PA_POSTCOMPRA_VERSION', '1.0.0' );
+define( 'PA_POSTCOMPRA_VERSION', '1.0.1' );
 define( 'PA_POSTCOMPRA_FILE', __FILE__ );
 define( 'PA_POSTCOMPRA_URL', plugin_dir_url( __FILE__ ) );
 

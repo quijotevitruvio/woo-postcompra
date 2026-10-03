@@ -2,6 +2,11 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado semántico.
 
+## [1.0.1] - 2026-10-03
+### Seguridad
+- Fotos de reseñas: exigen sesión iniciada (y que la reseña sea de ese usuario) además de la compra; el campo solo se ofrece a compradores con sesión.
+- Comprobación final: si la foto guardada conservara un bloque EXIF/XMP/IPTC, se borra (`plr_tiene_metadatos`).
+
 ## [1.0.0] - 2026-10-03
 ### Añadido
 - Primera versión pública: plugin `woo-postcompra/` (une los módulos internos «Invítanos un café» y «Reseñas con foto»).
